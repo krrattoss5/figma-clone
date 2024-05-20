@@ -17,10 +17,10 @@ const Live = () => {
 
   const handlePointerLeave = useCallback((event: React.PointerEvent) => {
     event.preventDefault()
-    
+
     updateMyPresence({cursor: null, message: null})
   }, [])
-  
+
   const handlePointerDown = useCallback((event: React.PointerEvent) => {
     event.preventDefault()
 
@@ -35,7 +35,7 @@ const Live = () => {
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       onPointerDown={handlePointerDown}
-      className='border-5 border-green-500 w-full h-[100vh] flex justify-center items-center text-center'
+      className='w-[500px] h-[500px] flex justify-center items-center text-center border-4 border-green-500'
     >
       <h1 className="text-2xl text-white">Figma Clone</h1>
       <LiveCursors others={others} />
