@@ -1,27 +1,23 @@
 import { createClient } from "@liveblocks/client";
 import { createRoomContext, createLiveblocksContext } from "@liveblocks/react";
-  
+
 const client = createClient({
-  // publicApiKey: "",
-  // authEndpoint: "/api/liveblocks-auth",
-  // throttle: 100,
+  publicApiKey: process.env.NEXT_PUBLIC_LIVELOCKS_PUBLIC_KEY!,
   async resolveUsers({ userIds }) {
     // Used only for Comments and Notifications. Return a list of user information
     // retrieved from `userIds`. This info is used in comments, mentions etc.
-    
     // const usersData = await __fetchUsersFromDB__(userIds);
-    // 
+    //
     // return usersData.map((userData) => ({
     //   name: userData.name,
     //   avatar: userData.avatar.src,
     // }));
-    
     return [];
   },
   async resolveMentionSuggestions({ text }) {
     // Used only for Comments. Return a list of userIds that match `text`.
     // These userIds are used to create a mention list when typing in the
-    // composer. 
+    // composer.
     //
     // For example when you type "@jo", `text` will be `"jo"`, and 
     // you should to return an array with John and Joanna's userIds:
