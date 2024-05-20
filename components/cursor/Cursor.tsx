@@ -1,3 +1,4 @@
+import CursorSVG from '@/public/assets/CursorSVG'
 import React from 'react'
 
 interface Props {
@@ -9,7 +10,9 @@ interface Props {
 
 const Cursor = ({ color, x, y, message }: Props) => {
   return (
-    <div>Cursor</div>
+    <div className='pointer-events-none absolut top-0 left-0' style={{ transform: `translateX(${x}px) translateY(${y}px)`}}>
+      <CursorSVG color={color} />
+    </div>
   )
 }
 
