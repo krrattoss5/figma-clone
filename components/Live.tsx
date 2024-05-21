@@ -19,6 +19,12 @@ const Live = () => {
 
   const broadcast = useBroadcastEvent()
 
+  //eliminino las reacciones que ya no son visibles
+  useInterval(() => {
+    setReaction((reaction) => reaction.filter(r => r.timestamp > Date.now() - 4000))
+  }, 1000)
+
+  // hacer visibles las reacciones
   useInterval(() => {
     if(cursorState.mode === CursorMode.Reaction && cursorState.isPressed && cursor) {
 
@@ -31,7 +37,7 @@ const Live = () => {
       ]))
 
       broadcast({
-        x: cursor,
+        x: cursor.x,
         y: cursor.y,
         value: cursorState.reaction,
       })
