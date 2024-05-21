@@ -143,8 +143,7 @@ const Live = () => {
       onPointerDown={handlePointerDown}
       className='border-4 border-green-500 w-full h-[100vh] flex justify-center items-center text-center'
     >
-      <h1 className="text-2xl text-white">Figma Clone</h1>
-      <LiveCursors others={others} />
+      <canvas />
 
       {reaction.map((r) => (
         <FlyingReaction

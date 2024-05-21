@@ -1,29 +1,55 @@
+"use client";
+
+import { useMemo } from "react";
+
+import { generateRandomName } from "@/lib/utils";
 import { useOthers, useSelf } from "@/liveblocks.config";
-import { Avatar } from "./Avatar";
-import styles from './index.module.css'
+import Avatar from "./Avatar";
 
-function Example() {
-  const users = useOthers();
+
+const ActiveUsers = () => {
+  /**
+   * useOthers returns the list of other users in the room.
+   *
+   * useOthers: https://liveblocks.io/docs/api-reference/liveblocks-react#useOthers
+   */
+  const others = useOthers();
+
+  /**
+   * useSelf returns the current user details in the room
+   *
+   * useSelf: https://liveblocks.io/docs/api-reference/liveblocks-react#useSelf
+   */
   const currentUser = useSelf();
-  const hasMoreUsers = users.length > 3;
 
-  return (
-    <main className="flex h-screen w-full select-none place-content-center place-items-center">
-      <div className="flex pl-3">
-        {users.slice(0, 3).map(({ connectionId, info }) => {
-          return (
-            <Avatar key={connectionId} src={info.avatar} name={info.name} />
-          );
-        })}
+  // memoize the result of this function so that it doesn't change on every render but only when there are new users joining the room
+  const memoizedUsers = useMemo(() => {
+    const hasMoreUsers = others.length > 2;
 
-        {hasMoreUsers && <div className={styles.more}>+{users.length - 3}</div>}
-
+    return (
+      <div className='flex items-center justify-center gap-1'>
         {currentUser && (
-          <div className="relative ml-8 first:ml-0">
-            <Avatar src={currentUser.info.avatar} name="You" />
+          <Avatar name='You' otherStyles='border-[3px] border-primary-green' />
+        )}
+
+        {others.slice(0, 2).map(({ connectionId }) => (
+          <Avatar
+            key={connectionId}
+            name={generateRandomName()}
+            otherStyles='-ml-3'
+          />
+        ))}
+
+        {hasMoreUsers && (
+          <div className='z-10 -ml-3 flex h-9 w-9 items-center justify-center rounded-full bg-primary-black'>
+            +{others.length - 2}
           </div>
         )}
       </div>
-    </main>
-  );
-}
+    );
+  }, [others.length]);
+
+  return memoizedUsers;
+};
+
+export default ActiveUsers;
