@@ -7,7 +7,11 @@ import ReactionSelector from './reaction/ReactionButton'
 import FlyingReaction from './reaction/FlyingReaction'
 import useInterval from '@/hooks/useInterval'
 
-const Live = () => {
+interface Props {
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>
+}
+
+const Live = ({ canvasRef }: Props) => {
   const others = useOthers()
   const [{cursor}, updateMyPresence] = useMyPresence() as any
 
@@ -87,6 +91,7 @@ const Live = () => {
   }, [cursorState.mode, setCursorState])
 
   const handlePointerUp = useCallback((event: React.PointerEvent) => {
+    event.preventDefault()
     setCursorState((state: CursorState) => cursorState.mode === CursorMode.Reaction ? {...state, isPressed: false} : state)
 
   }, [cursorState.mode, setCursorState])
@@ -137,13 +142,14 @@ const Live = () => {
 
   return (
     <div
+      id='canvas'
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       onPointerUp={handlePointerUp}
       onPointerDown={handlePointerDown}
       className='border-4 border-green-500 w-full h-[100vh] flex justify-center items-center text-center'
     >
-      <canvas />
+      <canvas ref={canvasRef} />
 
       {reaction.map((r) => (
         <FlyingReaction
@@ -169,6 +175,8 @@ const Live = () => {
           setReaction={setReactions}
        />
       )}
+
+      <LiveCursors others={others} />
 
     </div>
   )
