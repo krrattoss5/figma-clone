@@ -29,6 +29,6 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ## Dependencies used:
 
    Fabric.js: Iterative object model on top of canvas element.
-    UUID
+    UUID:
     Shadcn/ui: https://ui.shadcn.com/
     jspdf:
