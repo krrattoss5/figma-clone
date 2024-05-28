@@ -30,5 +30,5 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
    Fabric.js: Iterative object model on top of canvas element.
     UUID:
-    Shadcn/ui: https://ui.shadcn.com/
+    Shadcn/ui: https://ui.shadcn.com/     components
     jspdf:
