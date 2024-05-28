@@ -61,37 +61,52 @@ const Live = ({ canvasRef }: Props) => {
   })
 
   const handlePointerMove = useCallback((event: React.PointerEvent) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    if(cursor == null || cursorState.mode !== CursorMode.ReactionSelector) {
-      const x = event.clientX - event.currentTarget.getBoundingClientRect().x
-      const y = event.clientY - event.currentTarget.getBoundingClientRect().y
-      updateMyPresence({cursor:{x, y}})
+    if (cursor == null || cursorState.mode !== CursorMode.ReactionSelector) {
+      const x = event.clientX - event.currentTarget.getBoundingClientRect().x;
+      const y = event.clientY - event.currentTarget.getBoundingClientRect().y;
+
+      updateMyPresence({
+        cursor: {
+          x,
+          y,
+        },
+      });
     }
-  }, [])
+  }, []);
 
-  const handlePointerLeave = useCallback((event: React.PointerEvent) => {
-    event.preventDefault()
+  const handlePointerLeave = useCallback(() => {
+    setCursorState({
+      mode: CursorMode.Hidden,
+    });
+    updateMyPresence({
+      cursor: null,
+      message: null,
+    });
+  }, []);
 
-    setCursorState({mode: CursorMode.Hidden})
-    updateMyPresence({cursor: null, message: null})
+  const handlePointerDown = useCallback(
 
-  }, [])
-
-  const handlePointerDown = useCallback((event: React.PointerEvent) => {
-    event.preventDefault()
+    (event: React.PointerEvent) => {
 
     const x = event.clientX - event.currentTarget.getBoundingClientRect().x
     const y = event.clientY - event.currentTarget.getBoundingClientRect().y
 
-    updateMyPresence({cursor:{x, y}})
+    updateMyPresence(
+      {
+        cursor:{
+          x,
+          y
+        }
+      })
 
     setCursorState((state: CursorState) => cursorState.mode === CursorMode.Reaction ? {...state, isPressed: true} : state)
 
   }, [cursorState.mode, setCursorState])
 
-  const handlePointerUp = useCallback((event: React.PointerEvent) => {
-    event.preventDefault()
+  const handlePointerUp = useCallback(() => {
+
     setCursorState((state: CursorState) => cursorState.mode === CursorMode.Reaction ? {...state, isPressed: false} : state)
 
   }, [cursorState.mode, setCursorState])
