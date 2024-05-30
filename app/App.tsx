@@ -7,7 +7,7 @@ import LeftSidebar from "@/components/users/LeftSidebar";
 import RightSidebar from "@/components/users/RightSidebar";
 import { ActiveElement, Attributes, CustomFabricObject } from "@/types/type";
 import { useEffect, useRef, useState } from "react";
-import { handleCanvasMouseDown, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvasSelectionCreated, handleCanvaseMouseMove, handleResize, initializeFabric, renderCanvas } from '@/lib/canvas';
+import { handleCanvasMouseDown, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvasObjectScaling, handleCanvasSelectionCreated, handleCanvaseMouseMove, handleResize, initializeFabric, renderCanvas } from '@/lib/canvas';
 import { useMutation, useRedo, useStorage, useUndo } from '@/liveblocks.config';
 import { defaultNavElement } from '@/constants';
 import { handleDelete, handleKeyDown } from '@/lib/key-events';
@@ -147,7 +147,7 @@ export default function Home() {
     canvas.on("object:modified", (options: any) => {
       handleCanvasObjectModified({
         options,
-        syncShapeInStorage
+        syncShapeInStorage,
       })
     })
 
@@ -159,8 +159,15 @@ export default function Home() {
       })
     })
 
+    canvas.on("object:scaling", (options: any) => {
+      handleCanvasObjectScaling({
+        options,
+        setElementAttributes,
+      })
+    })
+
     window.addEventListener("resize", () => {
-      handleResize({ canvas: fabricRef.current })
+      handleResize({ fabricRef })
     })
 
     window.addEventListener("keydown", (e: any) => {
@@ -182,18 +189,28 @@ export default function Home() {
           canvas: null
         })
       })
+
+      window.removeEventListener("keydown", (e: any) => {
+        handleKeyDown({
+          e,
+          canvas: fabricRef.current,
+          undo,
+          redo,
+          syncShapeInStorage,
+          deleteShapeFromStorage,
+        })
+      })
     }
 
   }, [canvasRef])
 
   useEffect(() => {
-
-  }, [canvasObjects])
     renderCanvas({
       fabricRef,
       canvasObjects,
       activeObjectRef
     })
+  }, [canvasObjects])
   return (
     <main className="h-screen overflow-hidden">
       <NavBar
