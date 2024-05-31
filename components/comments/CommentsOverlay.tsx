@@ -25,13 +25,17 @@ export const CommentsOverlay = () => {
   // get the max z-index of a thread
   const maxZIndex = useMaxZIndex();
 
+  const filteredThreads = threads
+  .filter((thread) =>  !thread.metadata.resolved)
+  .map((thread) => (
+    <OverlayThread key={thread.id} thread={thread} maxZIndex={maxZIndex} />
+  ))
+
   return (
     <div>
-      {threads
-        .filter((thread) => !thread.metadata.resolved)
-        .map((thread) => (
-          <OverlayThread key={thread.id} thread={thread} maxZIndex={maxZIndex} />
-        ))}
+      {threads.map((thread) => (
+        <OverlayThread key={thread.id} thread={thread} maxZIndex={maxZIndex} />
+      ))}
     </div>
   );
 };
@@ -50,7 +54,8 @@ const OverlayThread = ({ thread, maxZIndex }: OverlayThreadProps) => {
    *
    * useUser: https://liveblocks.io/docs/api-reference/liveblocks-react#useUser
    */
-  const { isLoading } = useUser(thread.comments[0].userId);
+  // const { isLoading } = useUser(thread.comments[0].userId);**************************
+  // console.log(thread.comments[0].userId)*********************************************
 
   // We're using a ref to get the thread element to position it
   const threadRef = useRef<HTMLDivElement>(null);
@@ -70,9 +75,9 @@ const OverlayThread = ({ thread, maxZIndex }: OverlayThreadProps) => {
     });
   }, [thread, editThreadMetadata, maxZIndex]);
 
-  if (isLoading) {
-    return null;
-  }
+  // if (isLoading) {
+  //   return null;
+  // }
 
   return (
     <div
