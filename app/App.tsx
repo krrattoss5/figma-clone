@@ -193,6 +193,7 @@ export default function Home() {
       window.removeEventListener("keydown", (e: any) => {
         handleKeyDown({
           e,
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           canvas: fabricRef.current,
           undo,
           redo,
