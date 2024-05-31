@@ -81,7 +81,11 @@ type RoomEvent = {
 export type ThreadMetadata = {
   // resolved: boolean;
   // quote: string;
-  // time: number;
+   time?: number;
+   resolved: boolean;
+   x: number;
+   y: number;
+   zIndex: number;
 };
 
 // Room-level hooks, use inside `RoomProvider`
@@ -125,7 +129,7 @@ export const {
     useMarkThreadAsRead,
     useRoomNotificationSettings,
     useUpdateRoomNotificationSettings,
-  
+
     // These hooks can be exported from either context
     // useUser,
     // useRoomInfo
@@ -140,7 +144,7 @@ export const {
     useMarkAllInboxNotificationsAsRead,
     useInboxNotifications,
     useUnreadInboxNotificationsCount,
-  
+
     // These hooks can be exported from either context
     useUser,
     useRoomInfo,
