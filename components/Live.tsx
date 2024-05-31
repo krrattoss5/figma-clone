@@ -6,6 +6,13 @@ import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type'
 import ReactionSelector from './reaction/ReactionButton'
 import FlyingReaction from './reaction/FlyingReaction'
 import useInterval from '@/hooks/useInterval'
+import { Comments } from './comments/Comments'
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '@/components/ui/context-menu'
 
 interface Props {
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>
@@ -156,44 +163,49 @@ const Live = ({ canvasRef }: Props) => {
   }, [])
 
   return (
-    <div
-      id='canvas'
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
-      onPointerUp={handlePointerUp}
-      onPointerDown={handlePointerDown}
-      className='border-4 border-green-500 w-full h-[100vh] flex justify-center items-center text-center'
-    >
-      <canvas ref={canvasRef} />
+    <ContextMenu>
+      <ContextMenuTrigger
+        id='canvas'
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        onPointerUp={handlePointerUp}
+        onPointerDown={handlePointerDown}
+        className='relative w-full h-full flex flex-1 justify-center items-center'
+      >
+        <canvas ref={canvasRef} />
 
-      {reaction.map((r) => (
-        <FlyingReaction
-          key={r.timestamp.toString()}
-          x={r.point.x}
-          y={r.point.y}
-          timestamp={r.timestamp}
-          value={r.value}
-       />
-      ))}
-
-      {cursor && (
-        <CursorChat
-          cursor={cursor}
-          cursorState={cursorState}
-          setCursorState={setCursorState}
-          updateMyPresence={updateMyPresence}
+        {reaction.map((r) => (
+          <FlyingReaction
+            key={r.timestamp.toString()}
+            x={r.point.x}
+            y={r.point.y}
+            timestamp={r.timestamp}
+            value={r.value}
         />
-      )}
+        ))}
 
-      {cursorState.mode === CursorMode.ReactionSelector && (
-        <ReactionSelector
-          setReaction={setReactions}
-       />
-      )}
+        {cursor && (
+          <CursorChat
+            cursor={cursor}
+            cursorState={cursorState}
+            setCursorState={setCursorState}
+            updateMyPresence={updateMyPresence}
+          />
+        )}
 
-      <LiveCursors others={others} />
+        {cursorState.mode === CursorMode.ReactionSelector && (
+          <ReactionSelector
+            setReaction={setReactions}
+        />
+        )}
 
-    </div>
+        <LiveCursors others={others} />
+
+        <Comments />
+      </ContextMenuTrigger>
+
+      <ContextMenuContent className='rigth-menu-content' />
+    </ContextMenu>
   )
 }
 
