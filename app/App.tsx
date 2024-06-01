@@ -2,17 +2,16 @@
 
 import { fabric } from "fabric"
 import Live from "@/components/Live";
-// import Navbar from "@/components/Navbar";
+import NavBar from "@/components/NavBar";
 import LeftSidebar from "@/components/users/LeftSidebar";
 import RightSidebar from "@/components/users/RightSidebar";
-import { ActiveElement, Attributes, CustomFabricObject } from "@/types/type";
+import { ActiveElement, Attributes } from "@/types/type";
 import { useEffect, useRef, useState } from "react";
 import { handleCanvasMouseDown, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvasObjectScaling, handleCanvasSelectionCreated, handleCanvaseMouseMove, handlePathCreated, handleResize, initializeFabric, renderCanvas } from "@/lib/canvas";
 import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
 import { defaultNavElement } from "@/constants";
 import { handleDelete, handleKeyDown } from "@/lib/key-events";
 import { handleImageUpload } from "@/lib/shapes";
-import NavBar from "@/components/NavBar";
 
 export default function Home() {
   const undo = useUndo()
@@ -222,12 +221,10 @@ export default function Home() {
   }, [canvasObjects])
   return (
     <main className="h-screen overflow-hidden">
-      {/* <Navbar
-      /> */}
+
       <NavBar
-        activeElement={activeElement}
-        handleActiveElement={handleActiveElement}
         imageInputRef={imageInputRef}
+        activeElement={activeElement}
         handleImageUpload={(e: any) => {
           e.stopPropagation()
 
@@ -238,6 +235,7 @@ export default function Home() {
             syncShapeInStorage
           })
         }}
+        handleActiveElement={handleActiveElement}
       />
 
       <section className="flex h-full flex-row">
