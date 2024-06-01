@@ -2,7 +2,7 @@
 
 import { fabric } from "fabric"
 import Live from "@/components/Live";
-import Navbar from "@/components/Navbar";
+// import Navbar from "@/components/Navbar";
 import LeftSidebar from "@/components/users/LeftSidebar";
 import RightSidebar from "@/components/users/RightSidebar";
 import { ActiveElement, Attributes, CustomFabricObject } from "@/types/type";
@@ -221,7 +221,7 @@ export default function Home() {
   }, [canvasObjects])
   return (
     <main className="h-screen overflow-hidden">
-      <Navbar
+      {/* <Navbar
         activeElement={activeElement}
         handleActiveElement={handleActiveElement}
         imageInputRef={imageInputRef}
@@ -235,7 +235,7 @@ export default function Home() {
             syncShapeInStorage
           })
         }}
-      />
+      /> */}
 
       <section className="flex h-full flex-row">
         <LeftSidebar allShapes={Array.from(canvasObjects)} />
