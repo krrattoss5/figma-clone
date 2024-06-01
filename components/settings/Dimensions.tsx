@@ -15,7 +15,7 @@ type Props = {
 
 const Dimensions = ({ width, height, isEditingRef, handleInputChange }: Props) => (
   <section className='flex flex-col border-b border-primary-grey-200'>
-    <div className='flex gap-4 px-4 py-3'>
+    <div className='flex flex-col gap-4 px-6 py-3'>
       {dimensionsOptions.map((item) => (
         <div
           key={item.label}
