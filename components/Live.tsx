@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import LiveCursors from './cursor/LiveCursors'
-import { useBroadcastEvent, useEventListener, useMyPresence, useOthers } from '@/liveblocks.config'
+import { useBroadcastEvent, useEventListener, useMyPresence } from '@/liveblocks.config'
 import CursorChat from './cursor/CursorChat'
 import { CursorMode, CursorState, Reaction } from '@/types/type'
 import ReactionSelector from './reaction/ReactionButton'
@@ -22,7 +22,6 @@ interface Props {
 }
 
 const Live = ({ canvasRef, undo, redo }: Props) => {
-  const others = useOthers()
   const [{cursor}, updateMyPresence] = useMyPresence()
   const [cursorState,setCursorState] = useState<CursorState>({
     mode: CursorMode.Hidden
@@ -230,7 +229,7 @@ const Live = ({ canvasRef, undo, redo }: Props) => {
         />
         )}
 
-        <LiveCursors others={others} />
+        <LiveCursors />
 
         <Comments />
       </ContextMenuTrigger>
