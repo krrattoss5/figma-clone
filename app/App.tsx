@@ -1,17 +1,17 @@
 "use client";
 
-import { fabric } from 'fabric'
+import { fabric } from "fabric"
 import Live from "@/components/Live";
 import NavBar from "@/components/Navbar";
 import LeftSidebar from "@/components/users/LeftSidebar";
 import RightSidebar from "@/components/users/RightSidebar";
 import { ActiveElement, Attributes, CustomFabricObject } from "@/types/type";
 import { useEffect, useRef, useState } from "react";
-import { handleCanvasMouseDown, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvasObjectScaling, handleCanvasSelectionCreated, handleCanvaseMouseMove, handlePathCreated, handleResize, initializeFabric, renderCanvas } from '@/lib/canvas';
-import { useMutation, useRedo, useStorage, useUndo } from '@/liveblocks.config';
-import { defaultNavElement } from '@/constants';
-import { handleDelete, handleKeyDown } from '@/lib/key-events';
-import { handleImageUpload } from '@/lib/shapes';
+import { handleCanvasMouseDown, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvasObjectScaling, handleCanvasSelectionCreated, handleCanvaseMouseMove, handlePathCreated, handleResize, initializeFabric, renderCanvas } from "@/lib/canvas";
+import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
+import { defaultNavElement } from "@/constants";
+import { handleDelete, handleKeyDown } from "@/lib/key-events";
+import { handleImageUpload } from "@/lib/shapes";
 
 export default function Home() {
   const undo = useUndo()
@@ -29,13 +29,13 @@ export default function Home() {
   const canvasObjects = useStorage((root) => root.canvasObjects)
 
   const [elementAttributes, setElementAttributes] = useState<Attributes>({
-    width: '',
-    height: '',
-    fontSize: '',
-    fontFamily: '',
-    fontWeight: '',
-    fill: '#aabbcc',
-    stroke: '#aabbcc'
+    width: "",
+    height: "",
+    fontSize: "",
+    fontFamily: "",
+    fontWeight: "",
+    fill: "#aabbcc",
+    stroke: "#aabbcc"
   })
 
   const syncShapeInStorage = useMutation(({ storage }, object) => {
@@ -46,18 +46,18 @@ export default function Home() {
     const shapeData = object.toJSON()
     shapeData.objectId = objectId
 
-    const canvasObjects = storage.get('canvasObjects')
+    const canvasObjects = storage.get("canvasObjects")
     canvasObjects.set(objectId, shapeData)
   }, [])
 
   const [activeElement, setActiveElement] = useState<ActiveElement>({
-    name: '',
-    value: '',
-    icon: '',
+    name: "",
+    value: "",
+    icon: "",
   })
 
   const deleteAllShapes = useMutation(({ storage }) => {
-    const canvasObjects = storage.get('canvasObjects')
+    const canvasObjects = storage.get("canvasObjects")
 
     if(!canvasObjects || canvasObjects.size === 0) return true
 
@@ -69,7 +69,7 @@ export default function Home() {
   }, [])
 
   const deleteShapeFromStorage = useMutation(({ storage }, objectId) => {
-    const canvasObjects = storage.get('canvasObjects')
+    const canvasObjects = storage.get("canvasObjects")
 
     canvasObjects.delete(objectId)
   }, [])
@@ -78,13 +78,13 @@ export default function Home() {
     setActiveElement(elem)
 
     switch (elem?.value) {
-      case 'reset':
+      case "reset":
         deleteAllShapes()
         fabricRef.current?.clear()
         setActiveElement(defaultNavElement)
        break;
 
-      case 'delete':
+      case "delete":
         handleDelete(
           fabricRef.current as any,
           deleteShapeFromStorage
@@ -92,7 +92,7 @@ export default function Home() {
         setActiveElement(defaultNavElement);
         break
 
-      case 'image':
+      case "image":
         imageInputRef.current?.click()
         isDrawing.current = false
 
@@ -111,7 +111,7 @@ export default function Home() {
   useEffect(() => {
     const canvas = initializeFabric({ canvasRef, fabricRef })
 
-    canvas.on('mouse:down', (options: any) => {
+    canvas.on("mouse:down", (options: any) => {
       handleCanvasMouseDown({
         options,
         canvas,
@@ -191,7 +191,7 @@ export default function Home() {
     return () => {
       canvas.dispose()
 
-      window.removeEventListener('resize', () => {
+      window.removeEventListener("resize", () => {
         handleResize({
           canvas: null
         })
