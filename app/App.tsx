@@ -12,6 +12,7 @@ import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
 import { defaultNavElement } from "@/constants";
 import { handleDelete, handleKeyDown } from "@/lib/key-events";
 import { handleImageUpload } from "@/lib/shapes";
+import NavBar from "@/components/NavBar";
 
 export default function Home() {
   const undo = useUndo()
@@ -222,6 +223,8 @@ export default function Home() {
   return (
     <main className="h-screen overflow-hidden">
       {/* <Navbar
+      /> */}
+      <NavBar
         activeElement={activeElement}
         handleActiveElement={handleActiveElement}
         imageInputRef={imageInputRef}
@@ -235,7 +238,7 @@ export default function Home() {
             syncShapeInStorage
           })
         }}
-      /> */}
+      />
 
       <section className="flex h-full flex-row">
         <LeftSidebar allShapes={Array.from(canvasObjects)} />
